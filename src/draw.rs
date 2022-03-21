@@ -82,9 +82,9 @@ impl Image{
         }
     }
 
-    pub fn draw_lines(&mut self, matrix: &Matrix, color: &Color){
+    pub fn draw_lines(&mut self, matrix: &Matrix, color: Color){
         for i in (0..matrix.matrix_array[0].len()).step_by(2){
-            self.draw_line(matrix.matrix_array[0][i] as i32, matrix.matrix_array[1][i] as i32, matrix.matrix_array[0][i+1] as i32, matrix.matrix_array[1][i+1] as i32, *color);
+            self.draw_line(matrix.matrix_array[0][i] as i32, matrix.matrix_array[1][i] as i32, matrix.matrix_array[0][i+1] as i32, matrix.matrix_array[1][i+1] as i32, color);
         }
     }
 }
