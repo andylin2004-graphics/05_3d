@@ -212,8 +212,8 @@ impl Matrix{
                 let mut cirT = 0.0;
                 while cirT < 1.0{
                     let x = r * (f32::consts::PI * cirT).cos() + cx;
-                    let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * rotT).cos() + cy;
-                    let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * rotT).sin() + cz;
+                    let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).cos() + cy;
+                    let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).sin() + cz;
                     if cirT > 0.0{
                         self.add_edge(prev_x, prev_y, prev_z, x, y, z);
                     }
