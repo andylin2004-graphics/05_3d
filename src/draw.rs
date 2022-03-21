@@ -150,4 +150,61 @@ impl Matrix{
             t += step;
         }
     }
+
+    /// add_box()
+    /// Inputs:   matrix * edges
+    /// 
+    ///             double x
+    /// 
+    ///             double y
+    /// 
+    ///             double z
+    /// 
+    ///             double width
+    /// 
+    ///             double height
+    /// 
+    ///             double depth
+
+    /// add the points for a rectagular prism whose
+    /// upper-left-front corner is (x, y, z) with width,
+    /// height and depth dimensions.
+    pub fn add_box( &mut self,
+        x: f32, y: f32, z: f32,
+        width: f32, height: f32, depth: f32 ) {
+            self.add_edge(x,y,z,x+width, y, z);
+            self.add_edge(x,y,z,x,y+height,z);
+            self.add_edge(x,y,z,x,y,z+depth);
+            self.add_edge(x+width,y,z,x+width,y+height,z);
+            self.add_edge(x+width,y,z,x+width,y,z+depth);
+            self.add_edge(x,y+height,z,x+width,y+height,z);
+            self.add_edge(x,y+height,z,x,y+height,z+depth);
+            self.add_edge(x,y,z+depth,x+width,y,z+depth);
+            self.add_edge(x,y,z+depth,x,y+height,z+depth);
+            self.add_edge(x+width,y+height,z,x+width,y+height,z+depth);
+            self.add_edge(x+width,y,z+depth,x+width,y+height,z+depth);
+            self.add_edge(x,y+height,z+depth,x+width,y+height,z+depth);
+    }
+
+    /*======== void add_sphere() ==========
+    Inputs:   struct matrix * points
+    double cx
+    double cy
+    double cz
+    double r
+    int step  
+
+    adds all the points for a sphere with center (cx, cy, cz)
+    and radius r using step points per circle/semicircle.
+
+    Since edges are drawn using 2 points, add each point twice,
+    or add each point and then another point 1 pixel away.
+
+    should call generate_sphere to create the necessary points
+    ====================*/
+    // void add_sphere( struct matrix * edges, 
+    //     double cx, double cy, double cz,
+    //     double r, int step ) {
+    // return;
+    // }
 }
