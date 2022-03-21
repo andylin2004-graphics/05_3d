@@ -226,9 +226,9 @@ impl Matrix{
     r: f32, step: f32 ) -> Matrix{
         let mut matrix = Matrix::new(0,0);
         let mut rotT: f32 = 0.0;
-            while rotT < 1.0{
+            while rotT < f32::consts::PI{
                 let mut cirT = 0.0;
-                while cirT < 1.0{
+                while cirT < f32::consts::PI{
                     let x = r * (f32::consts::PI * cirT).cos() + cx;
                     let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).cos() + cy;
                     let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).sin() + cz;
@@ -238,5 +238,65 @@ impl Matrix{
                 rotT += step;
             }
         return matrix;
+    }
+
+    /// add_torus()
+    /// Inputs:   struct matrix * points
+    ///             double cx
+    ///             double cy
+    ///             double cz
+    ///             double r1
+    ///             double r2
+    ///             double step
+    /// Returns:
+    ///
+    /// adds all the points required for a torus with center (cx, cy, cz),
+    /// circle radius r1 and torus radius r2 using step points per circle.
+
+    /// should call generate_torus to create the necessary points
+    pub fn add_torus(&mut self, 
+        cx: f32, cy: f32, cz: f32,
+        r1: f32, r2: f32, step: f32 ) {
+            let points_matrix = Matrix::generate_torus(cx, cy, cz, r1, r2, step);
+            for i in 0..points_matrix.matrix_array[0].len(){
+                self.add_edge(points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i], points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i]);
+            }
+    }
+
+    /// generate_torus()
+    /// 
+    /// Inputs:   struct matrix * points
+    /// 
+    /// double cx
+    /// 
+    /// double cy
+    /// 
+    /// double cz
+    /// 
+    /// double r
+    /// 
+    /// int step
+    /// 
+    /// Returns: Generates all the points along the surface
+    /// of a torus with center (cx, cy, cz),
+    /// circle radius r1 and torus radius r2 using
+    /// step points per circle.
+    /// Returns a matrix of those points
+    pub fn generate_torus( cx: f32, cy: f32, cz: f32,
+        circleRadius: f32, torusRadius: f32, step: f32 ) -> Matrix{
+            let mut matrix = Matrix::new(0,0);
+            let mut phi: f32 = 0.0;
+                while phi < f32::consts::PI * 2.0{
+                    let mut theta: f32 = 0.0;
+                    while theta < f32::consts::PI * 2.0{
+                        let x = phi.cos() * (circleRadius*theta.cos()+torusRadius) + cx;
+                        let y = circleRadius*theta.sin()+cy;
+                        let z = -phi.sin() * (circleRadius*theta.cos() + torusRadius) + cz;
+                        matrix.add_point(x,y,z);
+                        theta += step;
+                    }
+                    phi += step;
+                }
+            return matrix;
     }
 }
