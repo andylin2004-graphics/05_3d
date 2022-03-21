@@ -190,7 +190,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_sphere(params[0], params[1], params[2], params[3], 0.03);
+                points.add_sphere(params[0], params[1], params[2], params[3], 0.05);
             }
             "torus"=>{
                 i += 1;

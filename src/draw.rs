@@ -173,17 +173,17 @@ impl Matrix{
         x: f32, y: f32, z: f32,
         width: f32, height: f32, depth: f32 ) {
             self.add_edge(x,y,z,x+width, y, z);
-            self.add_edge(x,y,z,x,y+height,z);
-            self.add_edge(x,y,z,x,y,z+depth);
-            self.add_edge(x+width,y,z,x+width,y+height,z);
-            self.add_edge(x+width,y,z,x+width,y,z+depth);
-            self.add_edge(x,y+height,z,x+width,y+height,z);
-            self.add_edge(x,y+height,z,x,y+height,z+depth);
-            self.add_edge(x,y,z+depth,x+width,y,z+depth);
-            self.add_edge(x,y,z+depth,x,y+height,z+depth);
-            self.add_edge(x+width,y+height,z,x+width,y+height,z+depth);
-            self.add_edge(x+width,y,z+depth,x+width,y+height,z+depth);
-            self.add_edge(x,y+height,z+depth,x+width,y+height,z+depth);
+            self.add_edge(x,y,z,x,y-height,z);
+            self.add_edge(x,y,z,x,y,z-depth);
+            self.add_edge(x+width,y,z,x+width,y-height,z);
+            self.add_edge(x+width,y,z,x+width,y,z-depth);
+            self.add_edge(x,y-height,z,x+width,y-height,z);
+            self.add_edge(x,y-height,z,x,y-height,z-depth);
+            self.add_edge(x,y,z-depth,x+width,y,z-depth);
+            self.add_edge(x,y,z-depth,x,y-height,z-depth);
+            self.add_edge(x+width,y-height,z,x+width,y-height,z-depth);
+            self.add_edge(x+width,y,z-depth,x+width,y-height,z-depth);
+            self.add_edge(x,y-height,z-depth,x+width,y-height,z-depth);
     }
 
     /// add_sphere()
