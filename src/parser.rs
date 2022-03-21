@@ -123,7 +123,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                 points.multiply_matrixes(&transform);
             }
             "display"=>{
-                // screen.clear();
+                screen.clear();
                 screen.draw_lines(&points, color);
                 screen.display();
             }
