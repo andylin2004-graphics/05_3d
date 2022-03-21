@@ -214,12 +214,8 @@ impl Matrix{
                     let x = r * (f32::consts::PI * cirT).cos() + cx;
                     let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).cos() + cy;
                     let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).sin() + cz;
-                    if cirT > 0.0{
-                        self.add_edge(prev_x, prev_y, prev_z, x, y, z);
-                    }
-                    prev_x = x;
-                    prev_y = y;
-                    prev_z = z;
+                    self.add_point(x,y,z);
+                    self.add_point(x,y,z);
                     cirT += step;
                 }
                 rotT += step;
