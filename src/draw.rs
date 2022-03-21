@@ -186,25 +186,43 @@ impl Matrix{
             self.add_edge(x,y+height,z+depth,x+width,y+height,z+depth);
     }
 
-    /*======== void add_sphere() ==========
-    Inputs:   struct matrix * points
-    double cx
-    double cy
-    double cz
-    double r
-    int step  
+    /// void add_sphere()
+    /// Inputs:   struct matrix * points
+    /// double cx
+    /// double cy
+    /// double cz
+    /// double r
+    /// int step  
 
-    adds all the points for a sphere with center (cx, cy, cz)
-    and radius r using step points per circle/semicircle.
+    /// adds all the points for a sphere with center (cx, cy, cz)
+    /// and radius r using step points per circle/semicircle.
 
-    Since edges are drawn using 2 points, add each point twice,
-    or add each point and then another point 1 pixel away.
+    /// Since edges are drawn using 2 points, add each point twice,
+    /// or add each point and then another point 1 pixel away.
 
-    should call generate_sphere to create the necessary points
-    ====================*/
-    // void add_sphere( struct matrix * edges, 
-    //     double cx, double cy, double cz,
-    //     double r, int step ) {
-    // return;
-    // }
+    /// should call generate_sphere to create the necessary points
+    pub fn add_sphere(&mut self, 
+        cx: f32, cy: f32, cz: f32,
+        r: f32, step: f32 ) {
+            let mut rotT: f32 = 0.0;
+            let mut prev_x = 0.0;
+            let mut prev_y = 0.0;
+            let mut prev_z = 0.0;
+            while rotT < 1.0{
+                let mut cirT = 0.0;
+                while cirT < 1.0{
+                    let x = r * (f32::consts::PI * cirT).cos() + cx;
+                    let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * rotT).cos() + cy;
+                    let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * rotT).sin() + cz;
+                    if cirT > 0.0{
+                        self.add_edge(prev_x, prev_y, prev_z, x, y, z);
+                    }
+                    prev_x = x;
+                    prev_y = y;
+                    prev_z = z;
+                    cirT += step;
+                }
+                rotT += step;
+            }
+    }
 }

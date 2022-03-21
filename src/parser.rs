@@ -183,6 +183,15 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
 
                 points.add_box(params[0], params[1], params[2], params[3], params[4], params[5]);
             }
+            "sphere"=>{
+                i += 1;
+                let mut params = vec![0.0; 0];
+                for input in doc_lines[i].split(' '){
+                    params.push(input.parse().unwrap());
+                }
+
+                points.add_sphere(params[0], params[1], params[2], params[3], 0.1);
+            }
             _=>{
                 panic!("Invalid command {} at line {}.", doc_lines[i], i+1);
             }
