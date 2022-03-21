@@ -186,7 +186,7 @@ impl Matrix{
             self.add_edge(x,y+height,z+depth,x+width,y+height,z+depth);
     }
 
-    /// void add_sphere()
+    /// add_sphere()
     /// Inputs:   struct matrix * points
     /// double cx
     /// double cy
@@ -204,21 +204,39 @@ impl Matrix{
     pub fn add_sphere(&mut self, 
         cx: f32, cy: f32, cz: f32,
         r: f32, step: f32 ) {
-            let mut rotT: f32 = 0.0;
-            let mut prev_x = 0.0;
-            let mut prev_y = 0.0;
-            let mut prev_z = 0.0;
+            let points_matrix = Matrix::generate_sphere(cx, cy, cz, r, step);
+            for i in 0..points_matrix.matrix_array[0].len(){
+                self.add_edge(points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i], points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i]);
+            }
+    }
+
+    /// generate_sphere()
+    /// Inputs:   struct matrix * points
+    ///         double cx
+    ///         double cy
+    ///         double cz
+    ///         double r
+    ///         int step
+    /// 
+    /// Returns: Generates all the points along the surface
+    ///         of a sphere with center (cx, cy, cz) and
+    ///         radius r using step points per circle/semicircle.
+    ///         Returns a matrix of those points
+    pub fn generate_sphere(cx: f32, cy: f32, cz: f32,
+    r: f32, step: f32 ) -> Matrix{
+        let mut matrix = Matrix::new(0,0);
+        let mut rotT: f32 = 0.0;
             while rotT < 1.0{
                 let mut cirT = 0.0;
                 while cirT < 1.0{
                     let x = r * (f32::consts::PI * cirT).cos() + cx;
                     let y = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).cos() + cy;
                     let z = r * (f32::consts::PI * cirT).sin() * (f32::consts::PI * 2.0 * rotT).sin() + cz;
-                    self.add_point(x,y,z);
-                    self.add_point(x,y,z);
+                    matrix.add_point(x,y,z);
                     cirT += step;
                 }
                 rotT += step;
             }
+        return matrix;
     }
 }
