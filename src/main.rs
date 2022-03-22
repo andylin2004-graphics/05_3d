@@ -6,6 +6,7 @@ use std::env;
 use matrix::CurveType;
 use rand::Rng;
 use std::f32;
+use std::process::Command;
 mod parser;
 mod matrix;
 mod image;
@@ -45,7 +46,13 @@ fn main() {
             edges = Matrix::new(0,0);
         }
         screen.display();
-        screen.create_file("cereal.png");
+        screen.create_file("cereal.ppm");
+        Command::new("magick")
+                .arg("convert")
+                .arg("cereal.ppm")
+                .arg("cereal.png")
+                .spawn()
+                .expect("failed to convert image to desired format");
         // parse_file("cereal", &mut edges, &mut transform, &mut screen, color);
     }else{
         let mut screen = Image::new(500, 500);
