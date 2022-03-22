@@ -5,6 +5,7 @@ use crate::image::Image;
 use crate::color::Color;
 use std::process::Command;
 use crate::matrix::CurveType;
+use std::f32;
 
 /// Goes through the file named filename and performs all of the actions listed in that file.
 /// 
@@ -199,7 +200,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_torus(params[0], params[1], params[2], params[3], params[4], 0.2);
+                points.add_torus(params[0], params[1], params[2], params[3], params[4], f32::consts::PI/10.0);
             }
             _=>{
                 panic!("Invalid command {} at line {}.", doc_lines[i], i+1);
