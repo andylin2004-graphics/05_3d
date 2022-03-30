@@ -31,7 +31,7 @@ fn main() {
             color.r = rng.gen_range(0..256);
             color.g = rng.gen_range(0..256);
             color.b = rng.gen_range(0..256);
-            edges.add_sphere(rng.gen_range(0.0..500.0), rng.gen_range(0.0..500.0), 0.0, 20.0, 0.05);
+            edges.add_sphere(rng.gen_range(0.0..500.0), rng.gen_range(0.0..500.0), 0.0, 20.0, 20);
             screen.draw_lines(&edges, color);
             edges = Matrix::new(0,0);
         }
@@ -39,7 +39,7 @@ fn main() {
             color.r = rng.gen_range(0..256);
             color.g = rng.gen_range(0..256);
             color.b = rng.gen_range(0..256);
-            edges.add_torus(rng.gen_range(0.0..500.0), rng.gen_range(0.0..500.0), 0.0, 5.0, 20.0, f32::consts::PI/10.0);
+            edges.add_torus(rng.gen_range(0.0..500.0), rng.gen_range(0.0..500.0), 0.0, 5.0, 20.0, 20);
             edges.multiply_matrixes(&Matrix::make_rotX(90.0));
             edges.multiply_matrixes(&Matrix::make_translate(0, rng.gen_range(0..500), 0));
             screen.draw_lines(&edges, color);

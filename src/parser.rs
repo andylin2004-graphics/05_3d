@@ -162,7 +162,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_circle(params[0], params[1], params[2], params[3], 0.0001);
+                points.add_circle(params[0], params[1], params[2], params[3], 100);
             }
             "hermite"=>{
                 i += 1;
@@ -171,7 +171,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_curve(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], 0.0001, &CurveType::Hermite);
+                points.add_curve(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], 100, &CurveType::Hermite);
             }
             "bezier"=>{
                 i += 1;
@@ -180,7 +180,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_curve(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], 0.0001, &CurveType::Bezier);
+                points.add_curve(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7], 100, &CurveType::Bezier);
             }
             _ if doc_lines[i].starts_with('#') => {
             }
@@ -203,7 +203,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_sphere(params[0], params[1], params[2], params[3], 0.05);
+                points.add_sphere(params[0], params[1], params[2], params[3], 20);
             }
             "torus"=>{
                 i += 1;
@@ -212,7 +212,7 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
                     params.push(input.parse().unwrap());
                 }
 
-                points.add_torus(params[0], params[1], params[2], params[3], params[4], f32::consts::PI/10.0);
+                points.add_torus(params[0], params[1], params[2], params[3], params[4], 20);
             }
             _=>{
                 panic!("Invalid command {} at line {}.", doc_lines[i], i+1);
