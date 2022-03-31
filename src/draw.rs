@@ -117,22 +117,17 @@ impl Matrix{
     }
 
     pub fn add_circle(&mut self, cx: f32, cy: f32, cz: f32, r: f32, step: i32) {
-        let mut t = 0;
-        let mut prev_x = 0.0;
-        let mut prev_y = 0.0;
-        while t <= step {
+        let mut prev_x = r + cx;
+        let mut prev_y = cy;
+        for t in 0..step+1 {
             let x = r * (2.0 * f32::consts::PI * (t as f32 / step as f32)).cos() + cx;
             let y = r * (2.0 * f32::consts::PI * (t as f32 / step as f32)).sin() + cy;
-            if t > 0 {
-                self.add_edge(prev_x, prev_y, cz, x, y, cz);
-            }
+            self.add_edge(prev_x, prev_y, cz, x, y, cz);
             prev_x = x;
             prev_y = y;
-            t += 1;
         }
     }
 
-    /// x2, y2, x3, y3 are rx0, ry0, rx1, ry1 respectively if hermier
     /// x2, y2, x3, y3 are rx0, ry0, rx1, ry1 respectively if hermier
     pub fn add_curve(
         &mut self,
@@ -149,10 +144,9 @@ impl Matrix{
     ) {
         let matrix_x = Matrix::generate_curve_coefs(x0, x1, x2, x3, curve_type);
         let matrix_y = Matrix::generate_curve_coefs(y0, y1, y2, y3, curve_type);
-        let mut t = 0;
-        let mut prev_x = 0.0;
-        let mut prev_y = 0.0;
-        while t <= step {
+        let mut prev_x = x0;
+        let mut prev_y = y0;
+        for t in 0..step+1 {
             let x = (matrix_x.matrix_array[0][0] * (t as f32 / step as f32).powi(3))
                 + (matrix_x.matrix_array[1][0] * (t as f32 / step as f32).powi(2))
                 + (matrix_x.matrix_array[2][0] * t as f32 / step as f32)
@@ -161,12 +155,9 @@ impl Matrix{
                 + (matrix_y.matrix_array[1][0] * (t as f32 / step as f32).powi(2))
                 + (matrix_y.matrix_array[2][0] * t as f32 / step as f32)
                 + matrix_y.matrix_array[3][0];
-            if t > 0 {
-                self.add_edge(prev_x, prev_y, 0.0, x, y, 0.0);
-            }
+            self.add_edge(prev_x, prev_y, 0.0, x, y, 0.0);
             prev_x = x;
             prev_y = y;
-            t += 1;
         }
     }
 
