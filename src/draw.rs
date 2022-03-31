@@ -145,10 +145,10 @@ impl Matrix{
         x3: f32,
         y3: f32,
         step: i32,
-        curveType: &CurveType,
+        curve_type: &CurveType,
     ) {
-        let matrix_x = Matrix::generate_curve_coefs(x0, x1, x2, x3, curveType);
-        let matrix_y = Matrix::generate_curve_coefs(y0, y1, y2, y3, curveType);
+        let matrix_x = Matrix::generate_curve_coefs(x0, x1, x2, x3, curve_type);
+        let matrix_y = Matrix::generate_curve_coefs(y0, y1, y2, y3, curve_type);
         let mut t = 0;
         let mut prev_x = 0.0;
         let mut prev_y = 0.0;
@@ -223,9 +223,16 @@ impl Matrix{
     pub fn add_sphere(&mut self, 
         cx: f32, cy: f32, cz: f32,
         r: f32, step: i32 ) {
+            let lat_start: usize = 0;
+            let lat_stop = step as usize;
+            let long_start: usize = 0;
+            let long_stop = step as usize;
             let points_matrix = Matrix::generate_sphere(cx, cy, cz, r, step);
-            for i in 0..points_matrix.matrix_array[0].len(){
-                self.add_edge(points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i], points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i]);
+            for lat in lat_start..lat_stop{
+                for longt in long_start..long_stop{
+                    let index = lat * step as usize + longt;
+                    self.add_edge(points_matrix.matrix_array[0][index], points_matrix.matrix_array[1][index], points_matrix.matrix_array[2][index], points_matrix.matrix_array[0][index], points_matrix.matrix_array[1][index], points_matrix.matrix_array[2][index]);
+                }
             }
     }
 
@@ -247,19 +254,19 @@ impl Matrix{
         let rot_stop = step;
         let circ_start = 0;
         let circ_stop = step;
-        let mut rotT: i32 = rot_start;
-        while rotT < rot_stop {
-            let mut cirT = circ_start;
-            while cirT < circ_stop {
-                let x = r * (f32::consts::PI * (cirT as f32 / step as f32)).cos() + cx;
+        let mut rot_t: i32 = rot_start;
+        while rot_t < rot_stop {
+            let mut cir_t = circ_start;
+            while cir_t < circ_stop {
+                let x = r * (f32::consts::PI * (cir_t as f32 / step as f32)).cos() + cx;
                 let y =
-                    r * (f32::consts::PI * (cirT as f32 / step as f32)).sin() * (f32::consts::PI * 2.0 * (rotT as f32 / step as f32)).cos() + cy;
+                    r * (f32::consts::PI * (cir_t as f32 / step as f32)).sin() * (f32::consts::PI * 2.0 * (rot_t as f32 / step as f32)).cos() + cy;
                 let z =
-                    r * (f32::consts::PI * (cirT as f32 / step as f32)).sin() * (f32::consts::PI * 2.0 * (rotT as f32 / step as f32)).sin() + cz;
+                    r * (f32::consts::PI * (cir_t as f32 / step as f32)).sin() * (f32::consts::PI * 2.0 * (rot_t as f32 / step as f32)).sin() + cz;
                 matrix.add_point(x, y, z);
-                cirT += 1;
+                cir_t += 1;
             }
-            rotT += 1;
+            rot_t += 1;
         }
         return matrix;
     }
@@ -282,8 +289,15 @@ impl Matrix{
         cx: f32, cy: f32, cz: f32,
         r1: f32, r2: f32, step: i32 ) {
             let points_matrix = Matrix::generate_torus(cx, cy, cz, r1, r2, step);
-            for i in 0..points_matrix.matrix_array[0].len(){
-                self.add_edge(points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i], points_matrix.matrix_array[0][i], points_matrix.matrix_array[1][i], points_matrix.matrix_array[2][i]);
+            let lat_start: usize = 0;
+            let lat_stop = step as usize;
+            let long_start: usize = 0;
+            let long_stop = step as usize;
+            for lat in lat_start..lat_stop{
+                for longt in long_start..long_stop{
+                    let index = lat * step as usize + longt;
+                    self.add_edge(points_matrix.matrix_array[0][index], points_matrix.matrix_array[1][index], points_matrix.matrix_array[2][index], points_matrix.matrix_array[0][index], points_matrix.matrix_array[1][index], points_matrix.matrix_array[2][index]);
+                }
             }
     }
 
@@ -310,8 +324,8 @@ impl Matrix{
         cx: f32,
         cy: f32,
         cz: f32,
-        circleRadius: f32,
-        torusRadius: f32,
+        circle_radius: f32,
+        torus_radius: f32,
         step: i32,
     ) -> Matrix {
         let rot_start = 0;
@@ -323,9 +337,9 @@ impl Matrix{
         while phi < rot_stop {
             let mut theta = circ_start;
             while theta < circ_stop {
-                let x = (f32::consts::PI * 2.0 * phi as f32 / step as f32).cos() * (circleRadius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).cos() + torusRadius) + cx;
-                let y = circleRadius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).sin() + cy;
-                let z = -(f32::consts::PI * 2.0 * phi as f32 / step as f32).sin() * (circleRadius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).cos() + torusRadius) + cz;
+                let x = (f32::consts::PI * 2.0 * phi as f32 / step as f32).cos() * (circle_radius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).cos() + torus_radius) + cx;
+                let y = circle_radius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).sin() + cy;
+                let z = -(f32::consts::PI * 2.0 * phi as f32 / step as f32).sin() * (circle_radius * (f32::consts::PI * 2.0 * theta as f32 / step as f32).cos() + torus_radius) + cz;
                 matrix.add_point(x, y, z);
                 theta += 1;
             }

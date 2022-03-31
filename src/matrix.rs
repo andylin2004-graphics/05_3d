@@ -65,7 +65,7 @@ impl Matrix{
         return matrix;
     }
     
-    pub fn make_rotX(mut theta: f32 ) -> Matrix{
+    pub fn make_rot_x(mut theta: f32 ) -> Matrix{
         let mut matrix = Matrix::new(4, 4);
         matrix.identity();
         theta = theta.to_radians();
@@ -76,7 +76,7 @@ impl Matrix{
         return matrix;
     }
     
-    pub fn make_rotY( mut theta: f32 ) -> Matrix{
+    pub fn make_rot_y( mut theta: f32 ) -> Matrix{
         let mut matrix = Matrix::new(4, 4);
         matrix.identity();
         theta = theta.to_radians();
@@ -87,7 +87,7 @@ impl Matrix{
         return matrix;
     }
     
-    pub fn make_rotZ( mut theta: f32 ) -> Matrix{
+    pub fn make_rot_z( mut theta: f32 ) -> Matrix{
         let mut matrix = Matrix::new(4, 4);
         matrix.identity();
         theta = theta.to_radians();

@@ -40,7 +40,7 @@ fn main() {
             color.g = rng.gen_range(0..256);
             color.b = rng.gen_range(0..256);
             edges.add_torus(rng.gen_range(0.0..500.0), rng.gen_range(0.0..500.0), 0.0, 5.0, 20.0, 20);
-            edges.multiply_matrixes(&Matrix::make_rotX(90.0));
+            edges.multiply_matrixes(&Matrix::make_rot_x(90.0));
             edges.multiply_matrixes(&Matrix::make_translate(0, rng.gen_range(0..500), 0));
             screen.draw_lines(&edges, color);
             edges = Matrix::new(0,0);

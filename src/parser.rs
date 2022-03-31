@@ -119,13 +119,13 @@ pub fn parse_file( fname: &str, points: &mut Matrix, transform: &mut Matrix, scr
 
                 match params[0]{
                     "x"=>{
-                        transform.multiply_matrixes(&Matrix::make_rotX(params[1].parse().unwrap()));
+                        transform.multiply_matrixes(&Matrix::make_rot_x(params[1].parse().unwrap()));
                     }
                     "y"=>{
-                        transform.multiply_matrixes(&Matrix::make_rotY(params[1].parse().unwrap()));
+                        transform.multiply_matrixes(&Matrix::make_rot_y(params[1].parse().unwrap()));
                     }
                     "z"=>{
-                        transform.multiply_matrixes(&Matrix::make_rotZ(params[1].parse().unwrap()));
+                        transform.multiply_matrixes(&Matrix::make_rot_z(params[1].parse().unwrap()));
                     }
                     _=>{
                         panic!("Invalid input {} at 0 for rotation: please use x, y, or z.", params[0]);
